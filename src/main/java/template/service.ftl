@@ -12,7 +12,7 @@ public interface ${table.name?cap_first}Service {
 	
 	int update(${table.name?cap_first} ${table.name});
 	
-	${table.name?cap_first} find(${table.name?cap_first} ${table.name});
+	${table.name?cap_first} findByKey(${table.name?cap_first} ${table.name});
 	
 	List<${table.name?cap_first}> findAll(${table.name?cap_first} ${table.name});
 	

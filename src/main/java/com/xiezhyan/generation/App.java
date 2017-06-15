@@ -67,6 +67,12 @@ public class App
     			table.setFields(fields);
     		}
     	}
+    	
+    	if(null != tables && tables.size() > 0) {
+    		for(Tables table : tables) {
+    			table.setName(StringUtil.getInstance().replaceChar(table.getName(), "-"));
+    		}
+    	} 
     	return tables;
 	}
 	

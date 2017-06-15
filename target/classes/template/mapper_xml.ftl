@@ -12,7 +12,22 @@
 		</#list>
 	</resultMap>
 	
-    <select id="find" resultMap="${table.name}Map" parameterType="${entityPackage}.${table.name?cap_first}">
+	<sql id="${table.name}_columns">
+		<#list table.fields as field>
+		${field.columnName}<#if field_index + 1 != table.fields?size>,</#if>
+		</#list>
+	</sql>
+	
+    <select id="findByKey" resultMap="${table.name}Map" parameterType="${entityPackage}.${table.name?cap_first}">
+    	SELECT
+    	<include refid="${table.name}_columns" />
+    	FROM ${table.name} 
+    	WHERE 
+    	<#list table.fields as field>
+		<#if field.columnKey == "PRI">
+		${field.columnName} = ${r"#{" + field.javaField + "}"}
+		</#if>
+		</#list>
     </select>
     
     <select id="findAll" resultMap="${table.name}Map" parameterType="${entityPackage}.${table.name?cap_first}">

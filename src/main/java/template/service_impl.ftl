@@ -30,7 +30,7 @@ public class ${table.name?cap_first}ServiceImpl implements ${table.name?cap_firs
 	}
 	
 	@Override
-	public ${table.name?cap_first} find(${table.name?cap_first} ${table.name}) {
+	public ${table.name?cap_first} findByKey(${table.name?cap_first} ${table.name}) {
 		return ${table.name}Mapper.find(${table.name});
 	}
 	
