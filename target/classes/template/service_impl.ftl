@@ -23,13 +23,13 @@ public class ${table.javaName?cap_first}ServiceImpl implements ${table.javaName?
 	}
 	
 	@Override
-	public int delete(${table.javaName?cap_first} ${table.javaName}) {
-		return ${table.javaName}Mapper.delete(${table.javaName});
+	public int deleteByKey(${table.javaName?cap_first} ${table.javaName}) {
+		return ${table.javaName}Mapper.deleteByKey(${table.javaName});
 	}	
 	
 	@Override
-	public int update(${table.javaName?cap_first} ${table.javaName}) {
-		return ${table.javaName}Mapper.update(${table.javaName});
+	public int updateByKey(${table.javaName?cap_first} ${table.javaName}) {
+		return ${table.javaName}Mapper.updateByKey(${table.javaName});
 	}
 	
 	@Override

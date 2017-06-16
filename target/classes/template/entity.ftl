@@ -10,7 +10,7 @@ public class ${table.javaName?cap_first!""} implements Serializable {
 	 *----------------------
 	 * 	author:xiezhyan
 	 */
-	private static final long serialVersionUID = 6482847865746417225L;
+	private static final long serialVersionUID = 1L;
 	
 	<#if table.fields?? && table.fields?size gt 0>
 	<#list table.fields as field>
