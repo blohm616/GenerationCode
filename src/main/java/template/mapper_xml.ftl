@@ -97,7 +97,7 @@
     </delete>
     
     <update id="updateByKey" parameterType="${entityPackage}.${table.javaName?cap_first}">
-    	update ${table.name}
+    	UPDATE ${table.name}
 	    <set>
 		    <#list table.fields as field>
 			<if test="${field.javaField} !=null ">  
@@ -105,7 +105,7 @@
 	        </if> 
 			</#list>
 	    </set>
-	    where 
+	    WHERE 
 	    <#list table.fields as field>
 		<#if field.columnKey == "PRI">
 		${field.columnName} = ${r"#{" + field.javaField + ",jdbcType="+field.jdbcType?upper_case+"}"}
