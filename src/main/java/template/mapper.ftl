@@ -13,9 +13,9 @@ public interface ${table.javaName?cap_first}Mapper {
 	
 	${table.javaName?cap_first} findByKey(${table.javaName?cap_first} ${table.javaName});
 	
-	List<${table.javaName?cap_first}> findAll(${table.javaName?cap_first} ${table.javaName});
+	List<${table.javaName?cap_first}> findList(${table.javaName?cap_first} ${table.javaName});
 	
-	List<${table.javaName?cap_first}> findAll(${table.javaName?cap_first} ${table.javaName},int startPage, int pageSize);
+	List<${table.javaName?cap_first}> findListByPage(${table.javaName?cap_first} ${table.javaName},int startPage, int pageSize);
 	
 	int findCount(${table.javaName?cap_first} ${table.javaName});
 }

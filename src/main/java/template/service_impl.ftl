@@ -38,15 +38,15 @@ public class ${table.javaName?cap_first}ServiceImpl implements ${table.javaName?
 	}
 	
 	@Override
-	public List<${table.javaName?cap_first}> findAll(${table.javaName?cap_first} ${table.javaName}) {
-		return ${table.javaName}Mapper.findAll(${table.javaName});
+	public List<${table.javaName?cap_first}> findList(${table.javaName?cap_first} ${table.javaName}) {
+		return ${table.javaName}Mapper.findList(${table.javaName});
 	}
 	
 	@Override
-	public Pager<${table.javaName?cap_first}> findAll(${table.javaName?cap_first} ${table.javaName},Pagination pagination) {
+	public Pager<${table.javaName?cap_first}> findListByPage(${table.javaName?cap_first} ${table.javaName},Pagination pagination) {
 		pagination.setPageCount(findCount(${table.javaName}));
 		
-		List<${table.javaName?cap_first}> datas = ${table.javaName}Mapper.findAll(${table.javaName},pagination.getStartPage(),pagination.getPageSize());
+		List<${table.javaName?cap_first}> datas = ${table.javaName}Mapper.findListByPage(${table.javaName},pagination.getStartPage(),pagination.getPageSize());
 		
 		return new Pager<${table.javaName?cap_first}>(pagination,datas);
 	}

@@ -30,7 +30,7 @@
 		</#list>
     </select>
     
-    <select id="findAll" resultMap="${table.javaName}Map" parameterType="${entityPackage}.${table.javaName?cap_first}">
+    <select id="findList" resultMap="${table.javaName}Map" parameterType="${entityPackage}.${table.javaName?cap_first}">
     	SELECT
     	<include refid="${table.name}_columns" />
     	FROM ${table.name} 
@@ -48,7 +48,7 @@
 		</#list>
     </select>
     
-    <select id="findAll" resultMap="${table.javaName}Map" >
+    <select id="findListByPage" resultMap="${table.javaName}Map" >
     	SELECT
     	<include refid="${table.name}_columns" />
     	FROM ${table.name} 

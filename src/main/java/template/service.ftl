@@ -15,9 +15,9 @@ public interface ${table.javaName?cap_first}Service {
 	
 	${table.javaName?cap_first} findByKey(${table.javaName?cap_first} ${table.javaName});
 	
-	List<${table.javaName?cap_first}> findAll(${table.javaName?cap_first} ${table.javaName});
+	List<${table.javaName?cap_first}> findList(${table.javaName?cap_first} ${table.javaName});
 	
-	Pager<${table.javaName?cap_first}> findAll(${table.javaName?cap_first} ${table.javaName},Pagination pagination);
+	Pager<${table.javaName?cap_first}> findListByPage(${table.javaName?cap_first} ${table.javaName},Pagination pagination);
 	
 	int findCount(${table.javaName?cap_first} ${table.javaName});
 }
