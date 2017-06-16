@@ -5,9 +5,9 @@
 	<resultMap type="${entityPackage}.${table.javaName?cap_first}" id="${table.javaName}Map">
 		<#list table.fields as field>
 		<#if field.columnKey == "PRI">
-		<id column="${field.columnName}"  property="${field.javaField}" jdbcType="${field.jdbcType?upper_case}"/>
+		<id column="${field.columnName}"  property="${field.javaField}"/>
 		<#else>
-		<result column="${field.columnName}" property="${field.javaField}" jdbcType="${field.jdbcType?upper_case}"/>
+		<result column="${field.columnName}" property="${field.javaField}"/>
 		</#if>
 		</#list>
 	</resultMap>
@@ -25,7 +25,7 @@
     	WHERE 
     	<#list table.fields as field>
 		<#if field.columnKey == "PRI">
-		${field.columnName} = ${r"#{" + field.javaField + ",jdbcType="+field.jdbcType?upper_case+"}"}
+		${field.columnName} = ${r"#{" + field.javaField + "}"}
 		</#if>
 		</#list>
     </select>
@@ -38,11 +38,11 @@
     	<#list table.fields as field>
     	<#if field.javaType == "String">
     	<if test="${field.javaField} !=null ">  
-    		AND ${field.columnName} LIKE ${r"#{" + field.javaField + ",jdbcType="+field.jdbcType?upper_case+"}"}
+    		AND ${field.columnName} LIKE ${r"#{" + field.javaField + "}"}
 		</if>  
     	<#else>
 		<if test="${field.javaField} !=null ">  
-            AND ${field.columnName} = ${r"#{" + field.javaField + ",jdbcType="+field.jdbcType?upper_case+"}"}
+            AND ${field.columnName} = ${r"#{" + field.javaField + "}"}
         </if> 
         </#if> 
 		</#list>
@@ -56,11 +56,11 @@
     	<#list table.fields as field>
     	<#if field.javaType == "String">
     	<if test="${field.javaField} !=null ">  
-    		AND ${field.columnName} LIKE ${r"#{" + field.javaField + ",jdbcType="+field.jdbcType?upper_case+"}"}
+    		AND ${field.columnName} LIKE ${r"#{" + field.javaField + "}"}
 		</if>  
     	<#else>
 		<if test="${field.javaField} !=null ">  
-            AND ${field.columnName} = ${r"#{" + field.javaField + ",jdbcType="+field.jdbcType?upper_case+"}"}
+            AND ${field.columnName} = ${r"#{" + field.javaField + "}"}
         </if> 
         </#if> 
 		</#list>
@@ -75,11 +75,11 @@
     	<#list table.fields as field>
     	<#if field.javaType == "String">
     	<if test="${field.javaField} !=null ">  
-    		AND ${field.columnName} LIKE ${r"#{" + field.javaField + ",jdbcType="+field.jdbcType?upper_case+"}"}
+    		AND ${field.columnName} LIKE ${r"#{" + field.javaField + "}"}
 		</if>  
     	<#else>
 		<if test="${field.javaField} !=null ">  
-            AND ${field.columnName} = ${r"#{" + field.javaField + ",jdbcType="+field.jdbcType?upper_case+"}"}
+            AND ${field.columnName} = ${r"#{" + field.javaField + "}"}
         </if> 
         </#if> 
 		</#list>
@@ -91,7 +91,7 @@
     	WHERE 
     	<#list table.fields as field>
 		<#if field.columnKey == "PRI">
-		${field.columnName} = ${r"#{" + field.javaField + ",jdbcType="+field.jdbcType?upper_case+"}"}
+		${field.columnName} = ${r"#{" + field.javaField + "}"}
 		</#if>
 		</#list>
     </delete>
@@ -101,14 +101,14 @@
 	    <set>
 		    <#list table.fields as field>
 			<if test="${field.javaField} !=null ">  
-	           ${field.columnName} = ${r"#{" + field.javaField + ",jdbcType="+field.jdbcType?upper_case+"}"},
+	           ${field.columnName} = ${r"#{" + field.javaField + "}"},
 	        </if> 
 			</#list>
 	    </set>
 	    WHERE 
 	    <#list table.fields as field>
 		<#if field.columnKey == "PRI">
-		${field.columnName} = ${r"#{" + field.javaField + ",jdbcType="+field.jdbcType?upper_case+"}"}
+		${field.columnName} = ${r"#{" + field.javaField + "}"}
 		</#if>
 		</#list>
     </update>
@@ -125,7 +125,7 @@
 	    <trim prefix="values (" suffix=")" suffixOverrides="," >
 	      <#list table.fields as field>
 			<if test="${field.javaField} !=null ">  
-	          ${r"#{" + field.javaField + ",jdbcType="+field.jdbcType?upper_case+"}"},
+	          ${r"#{" + field.javaField + "}"},
 	        </if> 
 			</#list>
 	    </trim>
