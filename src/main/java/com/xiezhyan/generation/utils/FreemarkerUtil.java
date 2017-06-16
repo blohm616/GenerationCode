@@ -69,12 +69,15 @@ public class FreemarkerUtil {
         if(!file.exists())
         	file.mkdirs();
         
+        String fileStr = path + File.separator + fileName;
+        
         PrintWriter out = new PrintWriter(new BufferedWriter(  
-                new FileWriter(path + File.separator + fileName)));
+                new FileWriter(fileStr)));
         
         try {  
             // 解释模板  
             template.process(root, out); 
+            LogUtil.i("生成：" + fileStr);
         } catch (TemplateException e) {  
             e.printStackTrace();
         }

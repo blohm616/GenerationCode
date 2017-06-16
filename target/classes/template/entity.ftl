@@ -3,7 +3,7 @@ package ${entityPackage!""};
 import java.io.Serializable;
 import java.util.*;
 
-public class ${table.name?cap_first!""} implements Serializable {
+public class ${table.javaName?cap_first!""} implements Serializable {
 
 	/**
 	 *	version: ${table.comment!""}
@@ -14,8 +14,9 @@ public class ${table.name?cap_first!""} implements Serializable {
 	
 	<#if table.fields?? && table.fields?size gt 0>
 	<#list table.fields as field>
-	/**${field.comment!""}*/
+	/**${field.columnComment!""}*/
 	private ${field.javaType!""} ${field.javaField!""};
+	
 	</#list>
 	</#if>
 	

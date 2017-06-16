@@ -37,7 +37,6 @@ public class StringUtil {
                 char ss = sb.charAt(count);  
                 char ia = (char) (ss - 32);  
                 sb.replace(count,count+1,ia+"");  
-                System.out.println(sb.toString());  
             }  
         }  
       String ss = sb.toString().replaceAll(tag,"");  

@@ -16,8 +16,16 @@ public class Tables implements Serializable {
 	private String name;
 	private String comment;
 	
+	private String javaName;
+	
 	private List<Fields> fields;
 	
+	public String getJavaName() {
+		return javaName;
+	}
+	public void setJavaName(String javaName) {
+		this.javaName = javaName;
+	}
 	public List<Fields> getFields() {
 		return fields;
 	}

@@ -70,7 +70,7 @@ public class App
     	
     	if(null != tables && tables.size() > 0) {
     		for(Tables table : tables) {
-    			table.setName(StringUtil.getInstance().replaceChar(table.getName(), "-"));
+    			table.setJavaName(StringUtil.getInstance().replaceChar(table.getName(), "_"));
     		}
     	} 
     	return tables;
@@ -106,28 +106,28 @@ public class App
 			try {
 				//entity
 				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-							"entity.ftl", entityPackage, StringUtil.getInstance().firstUpperCase(table.getName()) + ".java", root);
+							"entity.ftl", entityPackage, StringUtil.getInstance().firstUpperCase(table.getJavaName()) + ".java", root);
 				
 				//serivce
 				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-						"service.ftl", servicePackage, StringUtil.getInstance().firstUpperCase(table.getName()) + "Service.java", root);
+						"service.ftl", servicePackage, StringUtil.getInstance().firstUpperCase(table.getJavaName()) + "Service.java", root);
 				
 				//serviceImpl
 				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-						"service_impl.ftl", serviceImplPackage, StringUtil.getInstance().firstUpperCase(table.getName()) + "ServiceImpl.java", root);
+						"service_impl.ftl", serviceImplPackage, StringUtil.getInstance().firstUpperCase(table.getJavaName()) + "ServiceImpl.java", root);
 				
 				//mapper
 				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-						"mapper.ftl", mapperPackage, StringUtil.getInstance().firstUpperCase(table.getName()) + "Mapper.java", root);
+						"mapper.ftl", mapperPackage, StringUtil.getInstance().firstUpperCase(table.getJavaName()) + "Mapper.java", root);
 				
 				//mapper.xml
 				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-						"mapper_xml.ftl", mapperPackage, StringUtil.getInstance().firstUpperCase(table.getName()) + "Mapper.xml", root);
+						"mapper_xml.ftl", mapperPackage, StringUtil.getInstance().firstUpperCase(table.getJavaName()) + "Mapper.xml", root);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		FileUtil.getInstance().compressExe(FreemarkerUtil.getInstance().getParentPath(packageName), FreemarkerUtil.getInstance().getParentPath(packageName) + ".zip");
-		LogUtil.i("压缩完成");
+		//FileUtil.getInstance().compressExe(FreemarkerUtil.getInstance().getParentPath(packageName), FreemarkerUtil.getInstance().getParentPath(packageName) + ".zip");
+		LogUtil.i("全部完成");
     }
 }
