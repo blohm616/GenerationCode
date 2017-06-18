@@ -3,6 +3,8 @@ package com.xiezhyan.generation.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import com.xiezhyan.generation.utils.StringUtil;
+
 public class Tables implements Serializable {
 
 	/**
@@ -16,8 +18,21 @@ public class Tables implements Serializable {
 	private String name;
 	private String comment;
 	
+	private String javaName;
+	
 	private List<Fields> fields;
 	
+	private StringUtil mStringInstance = StringUtil.getInstance();
+	
+	public String getJavaName() {
+		int i = this.name.indexOf("_");
+		this.javaName = i > 0 ? mStringInstance.replaceChar(this.name , "_") : this.name; 
+	
+		return this.javaName;
+	}
+	public void setJavaName(String javaName) {
+		this.javaName = javaName;
+	}
 	public List<Fields> getFields() {
 		return fields;
 	}

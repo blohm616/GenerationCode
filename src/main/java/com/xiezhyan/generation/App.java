@@ -12,7 +12,6 @@ import com.xiezhyan.generation.entity.Tables;
 import com.xiezhyan.generation.mappers.FieldMapper;
 import com.xiezhyan.generation.mappers.TableMapper;
 import com.xiezhyan.generation.utils.DaoSupport;
-import com.xiezhyan.generation.utils.FileUtil;
 import com.xiezhyan.generation.utils.FreemarkerUtil;
 import com.xiezhyan.generation.utils.LogUtil;
 import com.xiezhyan.generation.utils.StringUtil;
@@ -23,11 +22,15 @@ import com.xiezhyan.generation.utils.StringUtil;
  */
 public class App 
 {
+	
+	private static DaoSupport mDaoInstance = DaoSupport.getInstance();
+	private static StringUtil mStringInstance = StringUtil.getInstance();
+	
 	public static List<Tables> getTables() {
 		
-		String tableSchema = DaoSupport.getInstance().getPropVal("table_schema");
+		String tableSchema = mDaoInstance.getPropVal("table_schema");
 		
-		SqlSession session = DaoSupport.getInstance().getSession();
+		SqlSession session = mDaoInstance.getSession();
 		
 		/**获取所有的表*/
     	TableMapper tm = session.getMapper(TableMapper.class);
@@ -43,36 +46,9 @@ public class App
     			map.put("tableName", table.getName());
     			
     			List<Fields> fields = fm.findFieldByTable(map);
-    			if(fields != null && fields.size() > 0) {
-    				for(Fields field: fields) {
-    					/**处理字段类型*/
-    					if(field.getJdbcType().equalsIgnoreCase("varchar") || 
-    							field.getJdbcType().equalsIgnoreCase("char") ||
-    							field.getJdbcType().equalsIgnoreCase("text")) {
-    						field.setJavaType("String");
-    					} else if(field.getJdbcType().equalsIgnoreCase("int")) {
-    						field.setJavaType("Integer");
-    					} else if(field.getJdbcType().equalsIgnoreCase("date") ||
-    							field.getJdbcType().equalsIgnoreCase("time")) {
-    						field.setJavaType("Date");
-    					} else if(field.getJdbcType().equalsIgnoreCase("double")) {
-    						field.setJavaType("Double");
-    					} else if(field.getJdbcType().equalsIgnoreCase("long")) {
-    						field.setJavaType("Long");
-    					}
-    					/**处理字段中的特殊字符*/
-    					field.setJavaField(StringUtil.getInstance().replaceChar(field.getColumnName(), "_"));
-    				}
-    			}
     			table.setFields(fields);
     		}
     	}
-    	
-    	if(null != tables && tables.size() > 0) {
-    		for(Tables table : tables) {
-    			table.setName(StringUtil.getInstance().replaceChar(table.getName(), "-"));
-    		}
-    	} 
     	return tables;
 	}
 	
@@ -82,7 +58,7 @@ public class App
     	Map<String,Object> root = new HashMap<String,Object>();
     	
     	//生成代码的包结构
-    	String packageName = DaoSupport.getInstance().getPropVal("packageName").replace(".", File.separator);
+    	String packageName = mDaoInstance.getPropVal("packageName").replace(".", File.separator);
 
     	//不同包名的文件类型
     	String entityPackage = packageName + File.separator + "entity";
@@ -106,28 +82,28 @@ public class App
 			try {
 				//entity
 				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-							"entity.ftl", entityPackage, StringUtil.getInstance().firstUpperCase(table.getName()) + ".java", root);
+							"entity.ftl", entityPackage, mStringInstance.firstUpperCase(table.getJavaName()) + ".java", root);
 				
 				//serivce
 				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-						"service.ftl", servicePackage, StringUtil.getInstance().firstUpperCase(table.getName()) + "Service.java", root);
+						"service.ftl", servicePackage, mStringInstance.firstUpperCase(table.getJavaName()) + "Service.java", root);
 				
 				//serviceImpl
 				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-						"service_impl.ftl", serviceImplPackage, StringUtil.getInstance().firstUpperCase(table.getName()) + "ServiceImpl.java", root);
+						"service_impl.ftl", serviceImplPackage, mStringInstance.firstUpperCase(table.getJavaName()) + "ServiceImpl.java", root);
 				
 				//mapper
 				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-						"mapper.ftl", mapperPackage, StringUtil.getInstance().firstUpperCase(table.getName()) + "Mapper.java", root);
+						"mapper.ftl", mapperPackage, mStringInstance.firstUpperCase(table.getJavaName()) + "Mapper.java", root);
 				
 				//mapper.xml
 				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-						"mapper_xml.ftl", mapperPackage, StringUtil.getInstance().firstUpperCase(table.getName()) + "Mapper.xml", root);
+						"mapper_xml.ftl", mapperPackage, mStringInstance.firstUpperCase(table.getJavaName()) + "Mapper.xml", root);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		FileUtil.getInstance().compressExe(FreemarkerUtil.getInstance().getParentPath(packageName), FreemarkerUtil.getInstance().getParentPath(packageName) + ".zip");
-		LogUtil.i("压缩完成");
+		//FileUtil.getInstance().compressExe(FreemarkerUtil.getInstance().getParentPath(packageName), FreemarkerUtil.getInstance().getParentPath(packageName) + ".zip");
+		LogUtil.i("全部完成");
     }
 }

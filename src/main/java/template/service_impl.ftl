@@ -1,56 +1,59 @@
 package ${serviceImplPackage};
 
-import ${entityPackage}.${table.name?cap_first};
+import ${entityPackage}.${table.javaName?cap_first};
 import ${packageName}.basic.entity.Pagination;
 import ${packageName}.basic.entity.Pager;
-import ${servicePackage}.${table.name?cap_first}Service;
+import ${servicePackage}.${table.javaName?cap_first}Service;
+import ${mapperPackage}.${table.javaName?cap_first}Mapper;
+import java.util.List;
 
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 
-@Service("${table.name}Service")
-public class ${table.name?cap_first}ServiceImpl implements ${table.name?cap_first}Service {
+@Service("${table.javaName}Service")
+public class ${table.javaName?cap_first}ServiceImpl implements ${table.javaName?cap_first}Service {
 
 	@Resource
-	private ${table.name?cap_first}Mapper ${table.name}Mapper;
+	private ${table.javaName?cap_first}Mapper ${table.javaName}Mapper;
 	
 	@Override
-	public int add(${table.name?cap_first} ${table.name}) {
-		return ${table.name}Mapper.add(${table.name});
+	public int add(${table.javaName?cap_first} ${table.javaName}) {
+		return ${table.javaName}Mapper.add(${table.javaName});
 	}
 	
 	@Override
-	public int delete(${table.name?cap_first} ${table.name}) {
-		return ${table.name}Mapper.delete(${table.name});
+	public int deleteByKey(${table.javaName?cap_first} ${table.javaName}) {
+		return ${table.javaName}Mapper.deleteByKey(${table.javaName});
 	}	
 	
 	@Override
-	public int update(${table.name?cap_first} ${table.name}) {
-		return ${table.name}Mapper.update(${table.name});
+	public int updateByKey(${table.javaName?cap_first} ${table.javaName}) {
+		return ${table.javaName}Mapper.updateByKey(${table.javaName});
 	}
 	
 	@Override
-	public ${table.name?cap_first} findByKey(${table.name?cap_first} ${table.name}) {
-		return ${table.name}Mapper.find(${table.name});
+	public ${table.javaName?cap_first} findByKey(${table.javaName?cap_first} ${table.javaName}) {
+		return ${table.javaName}Mapper.findByKey(${table.javaName});
 	}
 	
 	@Override
-	public List<${table.name?cap_first}> findAll(${table.name?cap_first} ${table.name}) {
-		return ${table.name}Mapper.findAll(${table.name});
+	public List<${table.javaName?cap_first}> findList(${table.javaName?cap_first} ${table.javaName}) {
+		return ${table.javaName}Mapper.findList(${table.javaName});
 	}
 	
 	@Override
-	public Pager<${table.name?cap_first}> findAll(${table.name?cap_first} ${table.name},Pagination pagination) {
-		pagination.setPageCount(findCount(${table.name?cap_first} ${table.name}));
+	public Pager<${table.javaName?cap_first}> findListByPage(${table.javaName?cap_first} ${table.javaName},Pagination pagination) {
+		pagination.setPageCount(findCount(${table.javaName}));
 		
-		List<${table.name?cap_first}> datas = ${table.name}Mapper.findAll(${table.name},pagination.getStartPage(),pagination.pageSize);
+		List<${table.javaName?cap_first}> datas = ${table.javaName}Mapper.findListByPage(${table.javaName},pagination.getStartPage(),pagination.getPageSize());
 		
-		return new Pager<${table.name?cap_first}>(pagination,datas);
+		return new Pager<${table.javaName?cap_first}>(pagination,datas);
 	}
 	
 	@Override
-	public int findCount(${table.name?cap_first} ${table.name}) {
-		return ${table.name}Mapper.findCount(${table.name});
+	public int findCount(${table.javaName?cap_first} ${table.javaName}) {
+		return ${table.javaName}Mapper.findCount(${table.javaName});
 	}
 	
 }

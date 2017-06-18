@@ -1,22 +1,21 @@
 package ${mapperPackage};
 
-import ${entityPackage}.${table.name?cap_first};
-import ${packageName}.basic.entity.Pagination;
-import ${packageName}.basic.entity.Pager;
+import ${entityPackage}.${table.javaName?cap_first};
+import java.util.List;
 
-public interface ${table.name?cap_first}Mapper {
+public interface ${table.javaName?cap_first}Mapper {
 	
-	int add(${table.name?cap_first} ${table.name});
+	int add(${table.javaName?cap_first} ${table.javaName});
 	
-	int delete(${table.name?cap_first} ${table.name});
+	int deleteByKey(${table.javaName?cap_first} ${table.javaName});
 	
-	int update(${table.name?cap_first} ${table.name});
+	int updateByKey(${table.javaName?cap_first} ${table.javaName});
 	
-	${table.name?cap_first} findByKey(${table.name?cap_first} ${table.name});
+	${table.javaName?cap_first} findByKey(${table.javaName?cap_first} ${table.javaName});
 	
-	List<${table.name?cap_first}> findAll(${table.name?cap_first} ${table.name});
+	List<${table.javaName?cap_first}> findList(${table.javaName?cap_first} ${table.javaName});
 	
-	List<${table.name?cap_first}> findAll(${table.name?cap_first} ${table.name},int startPage, int pageSize);
+	List<${table.javaName?cap_first}> findListByPage(${table.javaName?cap_first} ${table.javaName},int startPage, int pageSize);
 	
-	int findCount(${table.name?cap_first} ${table.name});
+	int findCount(${table.javaName?cap_first} ${table.javaName});
 }

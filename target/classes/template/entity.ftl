@@ -3,19 +3,20 @@ package ${entityPackage!""};
 import java.io.Serializable;
 import java.util.*;
 
-public class ${table.name?cap_first!""} implements Serializable {
+public class ${table.javaName?cap_first!""} implements Serializable {
 
 	/**
 	 *	version: ${table.comment!""}
 	 *----------------------
 	 * 	author:xiezhyan
 	 */
-	private static final long serialVersionUID = 6482847865746417225L;
+	private static final long serialVersionUID = 1L;
 	
 	<#if table.fields?? && table.fields?size gt 0>
 	<#list table.fields as field>
-	/**${field.comment!""}*/
+	/**${field.columnComment!""}*/
 	private ${field.javaType!""} ${field.javaField!""};
+	
 	</#list>
 	</#if>
 	
