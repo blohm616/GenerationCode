@@ -1,6 +1,7 @@
 package com.xiezhyan.generation;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class App
 	
 	private static DaoSupport mDaoInstance = DaoSupport.getInstance();
 	private static StringUtil mStringInstance = StringUtil.getInstance();
+	private static FreemarkerUtil mFreemarker = FreemarkerUtil.getInstance();
 	
 	public static List<Tables> getTables() {
 		
@@ -69,7 +71,12 @@ public class App
 		//获取模板所在路径
 		String templatePath = App.class.getClassLoader().getResource("template").getPath();
 		
+		String tableJavaName = null;
+		
 		for(Tables table : tables) {
+			
+			tableJavaName = mStringInstance.firstUpperCase(table.getJavaName());
+			
 			root = new HashMap<String,Object>();
 			
 			root.put("table", table);
@@ -78,27 +85,28 @@ public class App
 			root.put("servicePackage", servicePackage.replace(File.separator,"."));
 			root.put("serviceImplPackage", serviceImplPackage.replace(File.separator,"."));
 			root.put("mapperPackage", mapperPackage.replace(File.separator,"."));
+			root.put("nowDate", new Date());
 			
 			try {
 				//entity
-				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-							"entity.ftl", entityPackage, mStringInstance.firstUpperCase(table.getJavaName()) + ".java", root);
+				mFreemarker.tempWriter(templatePath, 
+							"entity.ftl", entityPackage, tableJavaName + ".java", root);
 				
 				//serivce
-				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-						"service.ftl", servicePackage, mStringInstance.firstUpperCase(table.getJavaName()) + "Service.java", root);
+				mFreemarker.tempWriter(templatePath, 
+						"service.ftl", servicePackage, tableJavaName + "Service.java", root);
 				
 				//serviceImpl
-				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-						"service_impl.ftl", serviceImplPackage, mStringInstance.firstUpperCase(table.getJavaName()) + "ServiceImpl.java", root);
+				mFreemarker.tempWriter(templatePath, 
+						"service_impl.ftl", serviceImplPackage, tableJavaName + "ServiceImpl.java", root);
 				
 				//mapper
-				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-						"mapper.ftl", mapperPackage, mStringInstance.firstUpperCase(table.getJavaName()) + "Mapper.java", root);
+				mFreemarker.tempWriter(templatePath, 
+						"mapper.ftl", mapperPackage, tableJavaName + "Mapper.java", root);
 				
 				//mapper.xml
-				FreemarkerUtil.getInstance().tempWriter(templatePath, 
-						"mapper_xml.ftl", mapperPackage, mStringInstance.firstUpperCase(table.getJavaName()) + "Mapper.xml", root);
+				mFreemarker.tempWriter(templatePath, 
+						"mapper_xml.ftl", mapperPackage, tableJavaName + "Mapper.xml", root);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
