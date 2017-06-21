@@ -11,7 +11,7 @@
 		</#if>
 		</#list>
 	</resultMap>
-	
+
 	<sql id="${table.name}_columns">
 		<#list table.fields as field>
 		${field.columnName}<#if field_index + 1 != table.fields?size>,</#if>
@@ -67,7 +67,7 @@
 		LIMIT ${r"#{startPage}"},${r"#{pageSize}"}
     </select>
     
-    <select id="findCount" parameterType="${entityPackage}.${table.javaName?cap_first}" resultType="Integer">
+    <select id="findCount" parameterType="${entityPackage}.${table.javaName?cap_first}" resultType="java.lang.Integer">
     	SELECT
     	COUNT(*)
     	FROM ${table.name} 

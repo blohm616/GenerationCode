@@ -17,7 +17,7 @@ public interface ${table.javaName?cap_first}Mapper {
 	
 	List<${table.javaName?cap_first}> findList(${table.javaName?cap_first} ${table.javaName});
 	
-	List<${table.javaName?cap_first}> findListByPage(@Param("${table.javaName}")${table.javaName?cap_first} ${table.javaName},@Param("startPage")int startPage, @Param("pageSize")int pageSize);
+	List<${table.javaName?cap_first}> findListByPage(@Param("${table.javaName}") ${table.javaName?cap_first} ${table.javaName},@Param("startPage") int startPage, @Param("pageSize") int pageSize);
 	
 	int findCount(${table.javaName?cap_first} ${table.javaName});
 }
