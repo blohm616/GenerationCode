@@ -55,21 +55,21 @@
     	WHERE is_delete = 'N'
     	<#list table.fields as field>
     	<#if (field.javaType!"") == "String">
-    	<if test="${field.javaField} !=null ">  
-    		AND ${field.columnName} LIKE ${r"#{" + field.javaField + "}"}
+    	<if test="${table.javaName}.${field.javaField} !=null ">  
+    		AND ${field.columnName} LIKE ${r"#{" + table.javaName + "." + field.javaField + "}"}
 		</if>  
     	<#else>
-		<if test="${field.javaField} !=null ">  
-            AND ${field.columnName} = ${r"#{" + field.javaField + "}"}
+		<if test="${table.javaName}.${field.javaField} !=null ">  
+            AND ${field.columnName} = ${r"#{" + table.javaName + "." + field.javaField + "}"}
         </if> 
         </#if> 
 		</#list>
-		LIMIT startPage,pageSize
+		LIMIT ${r"#{startPage}"},${r"#{pageSize}"}
     </select>
     
-    <select id="findCount" parameterType="${entityPackage}.${table.javaName?cap_first}">
+    <select id="findCount" parameterType="${entityPackage}.${table.javaName?cap_first}" resultType="Integer">
     	SELECT
-    	count(*)
+    	COUNT(*)
     	FROM ${table.name} 
     	WHERE is_delete = 'N'
     	<#list table.fields as field>
