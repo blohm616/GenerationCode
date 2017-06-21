@@ -18,7 +18,7 @@
 		</#list>
 	</sql>
 	
-    <select id="findByKey" resultMap="${table.javaName}Map" parameterType="${entityPackage}.${table.javaName?cap_first}">
+    <select id="findByKey" resultMap="${table.javaName}Map" parameterType="<#list table.fields as field><#if field.columnKey == "PRI">${field.javaType}</#if></#list>">
     	SELECT
     	<include refid="${table.name}_columns" />
     	FROM ${table.name} 
@@ -85,7 +85,7 @@
 		</#list>
     </select>
     
-    <delete id="deleteByKey" parameterType="${entityPackage}.${table.javaName?cap_first}">
+    <delete id="deleteByKey" parameterType="<#list table.fields as field><#if field.columnKey == "PRI">${field.javaType}</#if></#list>">
     	UPDATE ${table.name} 
     	SET is_delete = 'Y'
     	WHERE 

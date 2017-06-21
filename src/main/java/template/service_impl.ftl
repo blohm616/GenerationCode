@@ -1,8 +1,8 @@
 package ${serviceImplPackage};
 
 import ${entityPackage}.${table.javaName?cap_first};
-import ${packageName}.basic.entity.Pagination;
-import ${packageName}.basic.entity.Pager;
+import com.xiezhyan.hishop.basic.entity.Pagination;
+import com.xiezhyan.hishop.basic.entity.Pager;
 import ${servicePackage}.${table.javaName?cap_first}Service;
 import ${mapperPackage}.${table.javaName?cap_first}Mapper;
 import java.util.List;
@@ -23,8 +23,8 @@ public class ${table.javaName?cap_first}ServiceImpl implements ${table.javaName?
 	}
 	
 	@Override
-	public int deleteByKey(${table.javaName?cap_first} ${table.javaName}) {
-		return ${table.javaName}Mapper.deleteByKey(${table.javaName});
+	public int deleteByKey(<#list table.fields as field><#if field.columnKey == "PRI">${field.javaType} ${field.javaField}</#if></#list>) {
+		return ${table.javaName}Mapper.deleteByKey(<#list table.fields as field><#if field.columnKey == "PRI">${field.javaField}</#if></#list>);
 	}	
 	
 	@Override
@@ -33,8 +33,8 @@ public class ${table.javaName?cap_first}ServiceImpl implements ${table.javaName?
 	}
 	
 	@Override
-	public ${table.javaName?cap_first} findByKey(${table.javaName?cap_first} ${table.javaName}) {
-		return ${table.javaName}Mapper.findByKey(${table.javaName});
+	public ${table.javaName?cap_first} findByKey(<#list table.fields as field><#if field.columnKey == "PRI">${field.javaType} ${field.javaField}</#if></#list>) {
+		return ${table.javaName}Mapper.findByKey(<#list table.fields as field><#if field.columnKey == "PRI">${field.javaField}</#if></#list>);
 	}
 	
 	@Override

@@ -7,11 +7,11 @@ public interface ${table.javaName?cap_first}Mapper {
 	
 	int add(${table.javaName?cap_first} ${table.javaName});
 	
-	int deleteByKey(${table.javaName?cap_first} ${table.javaName});
+	int deleteByKey(<#list table.fields as field><#if field.columnKey == "PRI">${field.javaType} ${field.javaField}</#if></#list>);
 	
 	int updateByKey(${table.javaName?cap_first} ${table.javaName});
 	
-	${table.javaName?cap_first} findByKey(${table.javaName?cap_first} ${table.javaName});
+	${table.javaName?cap_first} findByKey(<#list table.fields as field><#if field.columnKey == "PRI">${field.javaType} ${field.javaField}</#if></#list>);
 	
 	List<${table.javaName?cap_first}> findList(${table.javaName?cap_first} ${table.javaName});
 	
