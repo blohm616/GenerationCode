@@ -27,6 +27,8 @@ public class App
 	private static DaoSupport mDaoInstance = DaoSupport.getInstance();
 	private static StringUtil mStringInstance = StringUtil.getInstance();
 	private static FreemarkerUtil mFreemarker = FreemarkerUtil.getInstance();
+	private static String mTemplatePath;
+	private static Map<String,Object> mRoot;
 	
 	public static List<Tables> getTables() {
 		
@@ -57,7 +59,6 @@ public class App
     public static void main( String[] args )
     {
     	List<Tables> tables = getTables();
-    	Map<String,Object> root = new HashMap<String,Object>();
     	
     	//生成代码的包结构
     	String packageName = mDaoInstance.getPropVal("packageName").replace(".", File.separator);
@@ -68,55 +69,56 @@ public class App
 		String servicePackage = packageName + File.separator + "service";
 		String serviceImplPackage = packageName + File.separator + "service" + File.separator + "impl";
 		String mapperPackage = packageName + File.separator + "mappers";
+
+		mRoot = new HashMap<String,Object>();
+		mRoot.put("tables", tables);
+		mRoot.put("packageName", packageName.replace(File.separator,"."));
+		mRoot.put("controllerPackage", controllerPackage.replace(File.separator,"."));
+		mRoot.put("entityPackage", entityPackage.replace(File.separator,"."));
+		mRoot.put("servicePackage", servicePackage.replace(File.separator,"."));
+		mRoot.put("serviceImplPackage", serviceImplPackage.replace(File.separator,"."));
+		mRoot.put("mapperPackage", mapperPackage.replace(File.separator,"."));
+		mRoot.put("nowDate", new Date());
 		
-		//获取模板所在路径
-		String templatePath = App.class.getClassLoader().getResource("template").getPath();
-		
+		mTemplatePath = App.class.getClassLoader().getResource("template").getPath();
 		String tableJavaName = null;
 		
 		for(Tables table : tables) {
 			
 			tableJavaName = mStringInstance.firstUpperCase(table.getJavaName());
 			
-			root = new HashMap<String,Object>();
-			
-			root.put("table", table);
-			root.put("packageName", packageName.replace(File.separator,"."));
-			root.put("controllerPackage", controllerPackage.replace(File.separator,"."));
-			root.put("entityPackage", entityPackage.replace(File.separator,"."));
-			root.put("servicePackage", servicePackage.replace(File.separator,"."));
-			root.put("serviceImplPackage", serviceImplPackage.replace(File.separator,"."));
-			root.put("mapperPackage", mapperPackage.replace(File.separator,"."));
-			root.put("nowDate", new Date());
+			mRoot.put("table", table);
 			
 			try {
 				//entity
-				mFreemarker.tempWriter(templatePath, 
-							"entity.ftl", entityPackage, tableJavaName + ".java", root);
+				write("entity.ftl",entityPackage,tableJavaName + ".java");
 				
-				mFreemarker.tempWriter(templatePath, "controller.ftl", controllerPackage,
-							tableJavaName + "Controller.java", root);
+				//controller
+				write("controller.ftl",controllerPackage,tableJavaName + "Controller.java");
 				
-				//serivce
-				mFreemarker.tempWriter(templatePath, 
-						"service.ftl", servicePackage, tableJavaName + "Service.java", root);
+				//controller
+				write("service.ftl",servicePackage,tableJavaName + "Service.java");
 				
 				//serviceImpl
-				mFreemarker.tempWriter(templatePath, 
-						"service_impl.ftl", serviceImplPackage, tableJavaName + "ServiceImpl.java", root);
+				write("service_impl.ftl",serviceImplPackage,tableJavaName + "ServiceImpl.java");
 				
 				//mapper
-				mFreemarker.tempWriter(templatePath, 
-						"mapper.ftl", mapperPackage, tableJavaName + "Mapper.java", root);
+				write("mapper.ftl",mapperPackage,tableJavaName + "Mapper.java");
 				
 				//mapper.xml
-				mFreemarker.tempWriter(templatePath, 
-						"mapper_xml.ftl", mapperPackage, tableJavaName + "Mapper.xml", root);
+				write("mapper_xml.ftl",mapperPackage,tableJavaName + "Mapper.xml");
+				
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		//FileUtil.getInstance().compressExe(FreemarkerUtil.getInstance().getParentPath(packageName), FreemarkerUtil.getInstance().getParentPath(packageName) + ".zip");
 		LogUtil.i("全部完成");
+    }
+    
+    private static void write(String ftlName,String packageName,String fileName) throws Exception {
+    	mFreemarker.tempWriter(mTemplatePath, 
+    			ftlName, packageName, fileName, mRoot);
     }
 }

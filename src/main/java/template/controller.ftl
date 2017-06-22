@@ -13,6 +13,7 @@ import ${servicePackage}.${table.javaName?cap_first}Service;
 import com.xiezhyan.hishop.basic.entity.Pager;
 import com.xiezhyan.hishop.basic.entity.Pagination;
 import com.xiezhyan.hishop.utils.LogUtil;
+import com.xiezhyan.hishop.utils.StringUtil;
 
 @Controller
 @RequestMapping("/${table.name}")

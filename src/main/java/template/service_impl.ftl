@@ -17,6 +17,8 @@ public class ${table.javaName?cap_first}ServiceImpl implements ${table.javaName?
 	@Resource
 	private ${table.javaName?cap_first}Mapper ${table.javaName}Mapper;
 	
+	
+	
 	@Override
 	public int add(${table.javaName?cap_first} ${table.javaName}) {
 		return ${table.javaName}Mapper.add(${table.javaName});
