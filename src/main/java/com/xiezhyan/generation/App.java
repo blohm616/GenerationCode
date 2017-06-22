@@ -63,6 +63,7 @@ public class App
     	String packageName = mDaoInstance.getPropVal("packageName").replace(".", File.separator);
 
     	//不同包名的文件类型
+    	String controllerPackage = packageName + File.separator + "controller";
     	String entityPackage = packageName + File.separator + "entity";
 		String servicePackage = packageName + File.separator + "service";
 		String serviceImplPackage = packageName + File.separator + "service" + File.separator + "impl";
@@ -81,6 +82,7 @@ public class App
 			
 			root.put("table", table);
 			root.put("packageName", packageName.replace(File.separator,"."));
+			root.put("controllerPackage", controllerPackage.replace(File.separator,"."));
 			root.put("entityPackage", entityPackage.replace(File.separator,"."));
 			root.put("servicePackage", servicePackage.replace(File.separator,"."));
 			root.put("serviceImplPackage", serviceImplPackage.replace(File.separator,"."));
@@ -91,6 +93,9 @@ public class App
 				//entity
 				mFreemarker.tempWriter(templatePath, 
 							"entity.ftl", entityPackage, tableJavaName + ".java", root);
+				
+				mFreemarker.tempWriter(templatePath, "controller.ftl", controllerPackage,
+							tableJavaName + "Controller.java", root);
 				
 				//serivce
 				mFreemarker.tempWriter(templatePath, 
