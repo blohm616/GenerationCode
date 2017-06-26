@@ -27,6 +27,7 @@ public class App
 	private static DaoSupport mDaoInstance = DaoSupport.getInstance();
 	private static StringUtil mStringInstance = StringUtil.getInstance();
 	private static FreemarkerUtil mFreemarker = FreemarkerUtil.getInstance();
+	
 	private static String mTemplatePath;
 	private static Map<String,Object> mRoot;
 	

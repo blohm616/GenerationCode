@@ -36,7 +36,7 @@ public class ${table.javaName?cap_first}Controller {
 		
 		${table.javaName?cap_first} ${table.javaName} = ${table.javaName}Service.findByKey(id);
 		request.setAttribute("${table.javaName}", ${table.javaName});
-		return "${table.javaName}_info";
+		return "${table.javaName}/${table.javaName}_info";
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class ${table.javaName?cap_first}Controller {
 		
 		request.setAttribute("pager", pager);
 
-		return "${table.javaName}_list";
+		return "${table.javaName}/${table.javaName}_list";
 	}
 	
 	/**
@@ -97,14 +97,14 @@ public class ${table.javaName?cap_first}Controller {
 			request.setAttribute("${table.javaName}",${table.javaName});
 		}
 		
-		return "${table.javaName}_page";
+		return "${table.javaName}/${table.javaName}_page";
 	}
 	
 	/**
 	 * 
-	 *	version: 页面跳转：添加，修改
+	 *	version: 添加功能
 	 *	@param request
-	 *	@param id	id不为空，修改页面
+	 *	@param ${table.javaName}	需要添加的内容
 	 *				id为空，添加页面
 	 *	@return
 	 *-------------------------------------
@@ -112,7 +112,7 @@ public class ${table.javaName?cap_first}Controller {
 	 *	date:${nowDate?string("yyyy-MM-dd")}
 	 */
 	 @RequestMapping(value="/add",method=RequestMethod.POST)
-	 public String updateByKey(HttpServletRequest request,${table.javaName?cap_first} ${table.javaName}) {
+	 public String add(HttpServletRequest request,${table.javaName?cap_first} ${table.javaName}) {
 	 	int result = ${table.javaName}Service.add(${table.javaName});
 	 	
 	 	LogUtil.i("add::" + result);
@@ -130,7 +130,7 @@ public class ${table.javaName?cap_first}Controller {
 	 *	author:xiezhyan
 	 *	date:${nowDate?string("yyyy-MM-dd")}
 	 */
-	@RequestMapping("/updateByKey")
+	@RequestMapping(value="/updateByKey",method=RequestMethod.POST)
 	public String updateByKey(HttpServletRequest request,${table.javaName?cap_first} ${table.javaName},<#list table.fields as field><#if field.columnKey == "PRI">${field.javaType}</#if></#list> id) {
 		
 		${table.javaName?cap_first} old${table.javaName?cap_first} = ${table.javaName}Service.findByKey(id);
