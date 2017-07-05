@@ -135,7 +135,7 @@ public class ${table.javaName?cap_first}Controller {
 	public String updateByKey(HttpServletRequest request,${table.javaName?cap_first}Vo ${table.javaName}Vo,<#list table.fields as field><#if field.columnKey == "PRI">${field.javaType}</#if></#list> id) {
 		
 		${table.javaName?cap_first}Vo old${table.javaName?cap_first}Vo = ${table.javaName}Service.findByKey(id);
-		if(null != ${table.javaName}) {
+		if(null != ${table.javaName}Vo) {
 			<#list table.fields as field>
 			if(null != ${table.javaName}Vo.get${field.javaField?cap_first!""}()) {
 				old${table.javaName?cap_first}Vo.set${field.javaField?cap_first!""}(${table.javaName}Vo.get${field.javaField?cap_first!""}());
