@@ -1,6 +1,6 @@
 package ${serviceImplPackage};
 
-import ${entityPackage}.${table.javaName?cap_first};
+import ${entityVoPackage}.${table.javaName?cap_first}Vo;
 import com.xiezhyan.hishop.basic.entity.Pagination;
 import com.xiezhyan.hishop.basic.entity.Pager;
 import ${servicePackage}.${table.javaName?cap_first}Service;
@@ -17,11 +17,9 @@ public class ${table.javaName?cap_first}ServiceImpl implements ${table.javaName?
 	@Resource
 	private ${table.javaName?cap_first}Mapper ${table.javaName}Mapper;
 	
-	
-	
 	@Override
-	public int add(${table.javaName?cap_first} ${table.javaName}) {
-		return ${table.javaName}Mapper.add(${table.javaName});
+	public int add(${table.javaName?cap_first}Vo ${table.javaName}Vo) {
+		return ${table.javaName}Mapper.add(${table.javaName}Vo);
 	}
 	
 	@Override
@@ -30,32 +28,32 @@ public class ${table.javaName?cap_first}ServiceImpl implements ${table.javaName?
 	}	
 	
 	@Override
-	public int updateByKey(${table.javaName?cap_first} ${table.javaName}) {
-		return ${table.javaName}Mapper.updateByKey(${table.javaName});
+	public int updateByKey(${table.javaName?cap_first}Vo ${table.javaName}Vo) {
+		return ${table.javaName}Mapper.updateByKey(${table.javaName}Vo);
 	}
 	
 	@Override
-	public ${table.javaName?cap_first} findByKey(<#list table.fields as field><#if field.columnKey == "PRI">${field.javaType} ${field.javaField}</#if></#list>) {
+	public ${table.javaName?cap_first}Vo findByKey(<#list table.fields as field><#if field.columnKey == "PRI">${field.javaType} ${field.javaField}</#if></#list>) {
 		return ${table.javaName}Mapper.findByKey(<#list table.fields as field><#if field.columnKey == "PRI">${field.javaField}</#if></#list>);
 	}
 	
 	@Override
-	public List<${table.javaName?cap_first}> findList(${table.javaName?cap_first} ${table.javaName}) {
-		return ${table.javaName}Mapper.findList(${table.javaName});
+	public List<${table.javaName?cap_first}Vo> findList(${table.javaName?cap_first}Vo ${table.javaName}Vo) {
+		return ${table.javaName}Mapper.findList(${table.javaName}Vo);
 	}
 	
 	@Override
-	public Pager<${table.javaName?cap_first}> findListByPage(${table.javaName?cap_first} ${table.javaName},Pagination pagination) {
-		pagination.setPageCount(findCount(${table.javaName}));
+	public Pager<${table.javaName?cap_first}Vo> findListByPage(${table.javaName?cap_first}Vo ${table.javaName}Vo,Pagination pagination) {
+		pagination.setPageCount(findCount(${table.javaName}Vo));
 		
-		List<${table.javaName?cap_first}> datas = ${table.javaName}Mapper.findListByPage(${table.javaName},pagination.getStartPage(),pagination.getPageSize());
+		List<${table.javaName?cap_first}Vo> datas = ${table.javaName}Mapper.findListByPage(${table.javaName}Vo,pagination.getStartPage(),pagination.getPageSize());
 		
-		return new Pager<${table.javaName?cap_first}>(pagination,datas);
+		return new Pager<${table.javaName?cap_first}Vo>(pagination,datas);
 	}
 	
 	@Override
-	public int findCount(${table.javaName?cap_first} ${table.javaName}) {
-		return ${table.javaName}Mapper.findCount(${table.javaName});
+	public int findCount(${table.javaName?cap_first}Vo ${table.javaName}Vo) {
+		return ${table.javaName}Mapper.findCount(${table.javaName}Vo);
 	}
 	
 }

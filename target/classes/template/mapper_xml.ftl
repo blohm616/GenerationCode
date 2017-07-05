@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${mapperPackage}.${table.javaName?cap_first}Mapper">
 
-	<resultMap type="${entityPackage}.${table.javaName?cap_first}" id="${table.javaName}Map">
+	<resultMap type="${entityVoPackage}.${table.javaName?cap_first}Vo" id="${table.javaName}Map">
 		<#list table.fields as field>
 		<#if field.columnKey == "PRI">
 		<id column="${field.columnName}"  property="${field.javaField}"/>
@@ -11,14 +11,14 @@
 		</#if>
 		</#list>
 	</resultMap>
-	
+
 	<sql id="${table.name}_columns">
 		<#list table.fields as field>
 		${field.columnName}<#if field_index + 1 != table.fields?size>,</#if>
 		</#list>
 	</sql>
 	
-    <select id="findByKey" resultMap="${table.javaName}Map" parameterType="${entityPackage}.${table.javaName?cap_first}">
+    <select id="findByKey" resultMap="${table.javaName}Map" parameterType="<#list table.fields as field><#if field.columnKey == "PRI">${field.javaType}</#if></#list>">
     	SELECT
     	<include refid="${table.name}_columns" />
     	FROM ${table.name} 
@@ -30,65 +30,67 @@
 		</#list>
     </select>
     
-    <select id="findList" resultMap="${table.javaName}Map" parameterType="${entityPackage}.${table.javaName?cap_first}">
+    <select id="findList" resultMap="${table.javaName}Map" parameterType="${entityVoPackage}.${table.javaName?cap_first}Vo">
     	SELECT
     	<include refid="${table.name}_columns" />
     	FROM ${table.name} 
-    	WHERE is_delete = 'N'
-    	<#list table.fields as field>
-    	<#if (field.javaType!"") == "String">
-    	<if test="${field.javaField} !=null ">  
-    		AND ${field.columnName} LIKE ${r"#{" + field.javaField + "}"}
-		</if>  
-    	<#else>
-		<if test="${field.javaField} !=null ">  
-            AND ${field.columnName} = ${r"#{" + field.javaField + "}"}
-        </if> 
-        </#if> 
-		</#list>
+    	<where>
+	    	<#list table.fields as field>
+	    	<#if (field.javaType!"") == "String">
+	    	<if test="${field.javaField} !=null ">  
+	    		<#if field_index != 0>AND</#if> ${field.columnName} LIKE CONCAT('%',${r"#{" + field.javaField + "}"},'%')   
+			</if>  
+	    	<#else>
+			<if test="${field.javaField} !=null ">  
+	            <#if field_index != 0>AND</#if> ${field.columnName} = ${r"#{" + field.javaField + "}"}
+	        </if> 
+	        </#if> 
+			</#list>
+    	</where>
     </select>
     
     <select id="findListByPage" resultMap="${table.javaName}Map" >
     	SELECT
     	<include refid="${table.name}_columns" />
     	FROM ${table.name} 
-    	WHERE is_delete = 'N'
-    	<#list table.fields as field>
-    	<#if (field.javaType!"") == "String">
-    	<if test="${field.javaField} !=null ">  
-    		AND ${field.columnName} LIKE ${r"#{" + field.javaField + "}"}
-		</if>  
-    	<#else>
-		<if test="${field.javaField} !=null ">  
-            AND ${field.columnName} = ${r"#{" + field.javaField + "}"}
-        </if> 
-        </#if> 
-		</#list>
-		LIMIT startPage,pageSize
+    	<where>
+    		<#list table.fields as field>
+	    	<#if (field.javaType!"") == "String">
+	    	<if test="${table.javaName}.${field.javaField} !=null ">  
+	    		<#if field_index != 0>AND</#if> ${field.columnName} LIKE CONCAT('%',${r"#{" + table.javaName + "." + field.javaField + "}"},'%') 
+			</if>  
+	    	<#else>
+			<if test="${table.javaName}.${field.javaField} !=null ">  
+	            <#if field_index != 0>AND</#if> ${field.columnName} = ${r"#{" + table.javaName + "." + field.javaField + "}"}
+	        </if> 
+	        </#if> 
+			</#list>
+    	</where>
+		LIMIT ${r"#{startPage}"},${r"#{pageSize}"}
     </select>
     
-    <select id="findCount" parameterType="${entityPackage}.${table.javaName?cap_first}">
+    <select id="findCount" parameterType="${entityVoPackage}.${table.javaName?cap_first}Vo" resultType="java.lang.Integer">
     	SELECT
-    	count(*)
+    	COUNT(*)
     	FROM ${table.name} 
-    	WHERE is_delete = 'N'
-    	<#list table.fields as field>
-    	<#if (field.javaType!"") == "String">
-    	<if test="${field.javaField} !=null ">  
-    		AND ${field.columnName} LIKE ${r"#{" + field.javaField + "}"}
-		</if>  
-    	<#else>
-		<if test="${field.javaField} !=null ">  
-            AND ${field.columnName} = ${r"#{" + field.javaField + "}"}
-        </if> 
-        </#if> 
-		</#list>
+    	<where>
+	    	<#list table.fields as field>
+	    	<#if (field.javaType!"") == "String">
+	    	<if test="${field.javaField} !=null ">  
+	    		<#if field_index != 0>AND</#if> ${field.columnName} LIKE CONCAT('%',${r"#{" + field.javaField + "}"},'%') 
+			</if>  
+	    	<#else>
+			<if test="${field.javaField} !=null ">  
+	            <#if field_index != 0>AND</#if> ${field.columnName} = ${r"#{" + field.javaField + "}"}
+	        </if> 
+	        </#if> 
+			</#list>
+    	</where>
     </select>
     
-    <delete id="deleteByKey" parameterType="${entityPackage}.${table.javaName?cap_first}">
-    	UPDATE ${table.name} 
-    	SET is_delete = 'Y'
-    	WHERE 
+    <delete id="deleteByKey" parameterType="<#list table.fields as field><#if field.columnKey == "PRI">${field.javaType}</#if></#list>">
+		DELETE FROM ${table.name}
+		WHERE 
     	<#list table.fields as field>
 		<#if field.columnKey == "PRI">
 		${field.columnName} = ${r"#{" + field.javaField + "}"}
@@ -96,7 +98,7 @@
 		</#list>
     </delete>
     
-    <update id="updateByKey" parameterType="${entityPackage}.${table.javaName?cap_first}">
+    <update id="updateByKey" parameterType="${entityVoPackage}.${table.javaName?cap_first}Vo">
     	UPDATE ${table.name}
 	    <set>
 		    <#list table.fields as field>
@@ -113,7 +115,7 @@
 		</#list>
     </update>
     
-    <insert id="add" parameterType="${entityPackage}.${table.javaName?cap_first}">
+    <insert id="add" parameterType="${entityVoPackage}.${table.javaName?cap_first}Vo">
     	INSERT INTO ${table.name}
 	    <trim prefix="(" suffix=")" suffixOverrides="," >
 	      	<#list table.fields as field>

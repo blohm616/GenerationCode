@@ -67,6 +67,7 @@ public class App
     	//不同包名的文件类型
     	String controllerPackage = packageName + File.separator + "controller";
     	String entityPackage = packageName + File.separator + "entity";
+    	String entityVoPackage = entityPackage + File.separator + "vo";
 		String servicePackage = packageName + File.separator + "service";
 		String serviceImplPackage = packageName + File.separator + "service" + File.separator + "impl";
 		String mapperPackage = packageName + File.separator + "mappers";
@@ -76,6 +77,7 @@ public class App
 		mRoot.put("packageName", packageName.replace(File.separator,"."));
 		mRoot.put("controllerPackage", controllerPackage.replace(File.separator,"."));
 		mRoot.put("entityPackage", entityPackage.replace(File.separator,"."));
+		mRoot.put("entityVoPackage", entityVoPackage.replace(File.separator,"."));
 		mRoot.put("servicePackage", servicePackage.replace(File.separator,"."));
 		mRoot.put("serviceImplPackage", serviceImplPackage.replace(File.separator,"."));
 		mRoot.put("mapperPackage", mapperPackage.replace(File.separator,"."));
@@ -94,10 +96,13 @@ public class App
 				//entity
 				write("entity.ftl",entityPackage,tableJavaName + ".java");
 				
+				//entityVo
+				write("entityVo.ftl",entityVoPackage,tableJavaName + "Vo.java");
+				
 				//controller
 				write("controller.ftl",controllerPackage,tableJavaName + "Controller.java");
 				
-				//controller
+				//service
 				write("service.ftl",servicePackage,tableJavaName + "Service.java");
 				
 				//serviceImpl

@@ -9,6 +9,7 @@ public class ${table.javaName?cap_first!""} implements Serializable {
 	 *	version: ${table.comment!""}
 	 *----------------------
 	 * 	author:xiezhyan
+	 * 	date:${nowDate?string("yyyy-MM-dd")}
 	 */
 	private static final long serialVersionUID = 1L;
 	
